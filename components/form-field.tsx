@@ -15,7 +15,6 @@ const FormField = ({
   value,
   handleChangeText,
   otherStyles,
-  keyboardType,
   placeholder,
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +22,7 @@ const FormField = ({
     <View className={`space-y-2 ${otherStyles}`}>
       <Text className="text-base text-neutral-900 font-psemibold">{title}</Text>
       <View
-        className="border-2 border-gray-400
+        className="border border-gray-300
       w-full h-16 px-4 bg-black-100 rounded-2xl focus:border-secondary items-center flex-row"
       >
         <TextInput

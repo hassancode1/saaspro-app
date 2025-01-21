@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      console.log(authState);
       if (token) {
         await SecureStore.setItemAsync(TOKEN_KEY, token);
         setAuthState({
@@ -62,7 +61,6 @@ export const AuthProvider = ({ children }: any) => {
         authenticated: true,
         token: data.access_token,
       });
-
       router.replace("/(tabs)/home");
       axios.defaults.headers.common[
         "Authorization"
