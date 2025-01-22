@@ -9,11 +9,14 @@ import "react-native-get-random-values";
 import { Buffer } from "buffer";
 import axios from "axios";
 
-enum RecordingState {
+export enum RecordingState {
   Initial = "initial",
   Recording = "recording",
   Paused = "paused",
   Review = "review",
+  Transcribing = "transcribing",
+  Summarizing = "summarizing",
+  Completed = "completed",
 }
 type AudioRecording = {
   sound: Audio.Sound;
@@ -27,11 +30,11 @@ interface UploadAudioParams {
     name: string;
   };
   patientId: string;
-  visitDate: Date;
+  visitDate: string;
 }
 
 interface AudioApiPayload {
-  visit_date: Date;
+  visit_date: string;
   patient_id: string;
   filename: string;
 }
@@ -191,6 +194,12 @@ const useRecording = () => {
         type: "success",
         text1: "Audio uploaded succesfully",
       });
+      setRecordingState(RecordingState.Transcribing);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setRecordingState(RecordingState.Summarizing);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setRecordingState(RecordingState.Completed);
+      setRecordedAudio(null);
     } catch (error) {
       console.error("Error uploading file or calling API:", error);
     } finally {

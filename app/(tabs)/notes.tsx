@@ -39,6 +39,7 @@ function Notes() {
   });
 
   const [date, setDate] = useState(new Date());
+  const [tempDate, setTempDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedNote, setSelectedNote] = useState<VisitNote | null>(null);
@@ -66,20 +67,23 @@ function Notes() {
   const toggleDatePicker = () => {
     setShowPicker((currentState) => !currentState);
   };
-
   const onChangeDate = (event: { type: string }, selectedDate?: Date) => {
     if (Platform.OS === "android") {
       toggleDatePicker();
-    }
-
-    if (event.type === "set" && selectedDate) {
-      setDate(selectedDate);
-      setSelectedDate(moment(selectedDate).format("YYYY-MM-DD"));
+      if (event.type === "set" && selectedDate) {
+        setDate(selectedDate);
+        setSelectedDate(moment(selectedDate).format("YYYY-MM-DD"));
+      }
+    } else {
+      if (event.type === "set" && selectedDate) {
+        setTempDate(selectedDate); // Only update temp date for iOS
+      }
     }
   };
 
   const handleConfirmIOS = () => {
-    setSelectedDate(moment(date).format("YYYY-MM-DD"));
+    setDate(tempDate);
+    setSelectedDate(moment(tempDate).format("YYYY-MM-DD"));
     toggleDatePicker();
   };
 
@@ -140,8 +144,8 @@ function Notes() {
             </View>
 
             {showPicker && Platform.OS === "ios" && (
-              <View className="bg-gray-200 rounded-t-xl absolute z-[100] p-5 top-[100px] left-0 right-0">
-                <View className="flex-row justify-between px-4 py-2 border-b border-gray-200">
+              <View className="bg-white rounded-t-xl absolute z-[1000px] p-5 top-[100px] left-0 right-0">
+                <View className="flex-row justify-between px-4 py-2 b">
                   <TouchableOpacity onPress={toggleDatePicker}>
                     <Text className="text-blue-500 text-base">Cancel</Text>
                   </TouchableOpacity>
@@ -175,24 +179,25 @@ function Notes() {
             {notes?.notes.length === 0 ? (
               <EmptyState />
             ) : (
-              notes?.notes.map((note) => (
-                <TouchableOpacity
-                  key={note.visits_note_id}
-                  onPress={() => openNoteModal(note)}
-                  className="border border-gray-300 rounded-lg p-5 mt-9 flex flex-col gap-3"
-                >
-                  <View className="flex-row justify-betwreen items-start">
-                    <View>
-                      <Text className="font-semibold text-lg">
-                        {note.patient_id}
-                      </Text>
-                      <Text className="text-gray-400 text-sm mt-1">
-                        {formatDate(note.visit_date)}
-                      </Text>
-                    </View>
+              <View className="h-full mb-[100px]">
+                {notes?.notes.map((note) => (
+                  <TouchableOpacity
+                    key={note.visits_note_id}
+                    onPress={() => openNoteModal(note)}
+                    className="border border-gray-300 rounded-lg p-5 mt-9  flex flex-col gap-3"
+                  >
+                    <View className="flex-row justify-betwreen items-start">
+                      <View>
+                        <Text className="font-semibold text-lg">
+                          {note.patient_id}
+                        </Text>
+                        <Text className="text-gray-400 text-sm mt-1">
+                          {formatDate(note.visit_date)}
+                        </Text>
+                      </View>
 
-                    <View
-                      className={`
+                      <View
+                        className={`
                         px-3 py-1 rounded-full
                         ${
                           note.note_status === "completed"
@@ -202,9 +207,9 @@ function Notes() {
                             : "bg-blue-100"
                         }
                       `}
-                    >
-                      <Text
-                        className={`
+                      >
+                        <Text
+                          className={`
                           text-sm font-medium
                           ${
                             note.note_status === "completed"
@@ -214,17 +219,18 @@ function Notes() {
                               : "text-blue-700"
                           }
                         `}
-                      >
-                        {note.note_status}
-                      </Text>
+                        >
+                          {note.note_status}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
 
-                  <Text className="text-gray-500">
-                    {note.transcript.slice(0, 200) || "N/A"}
-                  </Text>
-                </TouchableOpacity>
-              ))
+                    <Text className="text-gray-500">
+                      {note.transcript.slice(0, 200) || "N/A"}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             )}
           </View>
         )}

@@ -14,20 +14,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "@/components/form-field";
 import { Dropdown } from "react-native-element-dropdown";
 import AudioProgressControl from "@/components/AudioControlProgress";
+import { RecordingState } from "@/hooks/useRecording";
+import ProcessingOverlay from "@/components/ProcessingOver";
 import AudioWaveAnimation from "@/components/AudioWaveAnimation";
 import useRecording from "@/hooks/useRecording";
+import moment from "moment";
 
 type Template = {
   label: string;
   value: string;
 };
-
-enum RecordingState {
-  Initial = "initial",
-  Recording = "recording",
-  Paused = "paused",
-  Review = "review",
-}
 
 const Home = () => {
   const {
@@ -106,7 +102,7 @@ const Home = () => {
     await uploadAudio({
       file: file,
       patientId: patientName,
-      visitDate: date,
+      visitDate: moment(date).format("YYYY-MM-DD"),
     });
   };
 
@@ -201,6 +197,20 @@ const Home = () => {
             </View>
           </View>
         );
+      case RecordingState.Completed:
+        return (
+          <TouchableOpacity
+            className="bg-green-500 text-white  mt-8 rounded-xl min-h-[50px] justify-center items-center flex-row"
+            onPress={startRecording}
+          >
+            <View>
+              <Mic color="white" />
+            </View>
+            <Text className="text-white font-bold ml-4 text-[1.1rem]">
+              Record New Session
+            </Text>
+          </TouchableOpacity>
+        );
       default:
         return null;
     }
@@ -282,9 +292,7 @@ const Home = () => {
             className="h-[120px] mt-[-10]"
           />
         )}
-        {recordingState === "recording" ||
-        recordingState === "paused" ||
-        recordingState === "review" ? null : (
+        {recordingState !== "initial" ? null : (
           <View className="mt-5 flex flex-col gap-3">
             <Text className="font-bold text-xl">Instructions</Text>
             <Text>1. Enter patient name and select template</Text>
@@ -294,8 +302,13 @@ const Home = () => {
             <Text>3. Stop recording to begin processing note</Text>
           </View>
         )}
+
+        <ProcessingOverlay
+          uploading={isUploading}
+          recordingState={recordingState}
+        />
         {renderRecordingButton()}
-        {recordingState !== RecordingState.Initial && (
+        {recordingState !== "initial" && recordingState !== "completed" && (
           <Text className="mt-4 text-center font-medium text-xl">
             Recording Duration: {recordingDuration}
           </Text>
