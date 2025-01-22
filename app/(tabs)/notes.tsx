@@ -105,7 +105,7 @@ function Notes() {
   };
 
   return (
-    <SafeAreaView className="flex-1  bg-white">
+    <SafeAreaView className="flex-1  bg-white h-[100%]">
       <ScrollView className="flex-1 mt-[2rem]">
         {loading ? (
           <SkeletonLoader />
@@ -134,13 +134,13 @@ function Notes() {
                 </TouchableOpacity>
               </View>
 
-              <Text className="text-gray-500 text-sm">
+              <Text className="text-gray-500 text-sm mt-">
                 Showing results for {formatDate(selectedDate)}
               </Text>
             </View>
 
             {showPicker && Platform.OS === "ios" && (
-              <View className="bg-white rounded-t-xl absolute z-[100] p-5 top-[100px] left-0 right-0">
+              <View className="bg-gray-200 rounded-t-xl absolute z-[100] p-5 top-[100px] left-0 right-0">
                 <View className="flex-row justify-between px-4 py-2 border-b border-gray-200">
                   <TouchableOpacity onPress={toggleDatePicker}>
                     <Text className="text-blue-500 text-base">Cancel</Text>

@@ -35,7 +35,7 @@ export default function HomeScreen() {
               className="w-[300px] h-[60px] "
             />
           </View>
-          <Text className="text-2xl text-center  text-neutral-800 text-semibold mt-10 font-semibold">
+          <Text className="text-2xl text-center text-semibold mt-10 font-semibold">
             Sign In to Saaspro Health
           </Text>
 

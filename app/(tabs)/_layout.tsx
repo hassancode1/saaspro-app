@@ -3,7 +3,7 @@ import { Tabs, Redirect } from "expo-router";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/hooks/services";
 import { useAuth } from "@/context/AuthContext";
-import { Home, Notebook, LucideIcon } from "lucide-react-native";
+import {  LucideIcon } from "lucide-react-native";
 import TabBar from "@/components/TabBar";
 import Header from "@/components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: 60,
+    height: 100,
     marginTop: -20,
   },
 });

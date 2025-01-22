@@ -23,7 +23,7 @@ const FormField = ({
       <Text className="text-base text-neutral-900 font-psemibold">{title}</Text>
       <View
         className="border border-gray-300
-      w-full h-16 px-4 bg-black-100 rounded-2xl focus:border-secondary items-center flex-row"
+      w-full h-16 px-4 bg-black-100 rounded-2xl focus:border-black items-center flex-row"
       >
         <TextInput
           className="flex-1 text-black font-psemibold text-large "

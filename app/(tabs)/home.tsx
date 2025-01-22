@@ -115,7 +115,7 @@ const Home = () => {
       case RecordingState.Initial:
         return (
           <TouchableOpacity
-            className="bg-secondary mt-8 rounded-xl min-h-[50px] justify-center items-center flex-row"
+            className="bg-black mt-8 rounded-xl min-h-[50px] justify-center items-center flex-row"
             onPress={startRecording}
           >
             <View>
@@ -191,7 +191,7 @@ const Home = () => {
             )}
             <View className="flex-row justify-between mt-8">
               <TouchableOpacity
-                className="bg-secondary rounded-xl min-h-[50px] flex-1 ml-2 justify-center items-center flex-row"
+                className="bg-black rounded-xl min-h-[50px] flex-1 ml-2 justify-center items-center flex-row"
                 onPress={saveAndContinue}
               >
                 <Text className="text-white font-bold  ml-4 text-[1.1rem]">

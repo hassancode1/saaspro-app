@@ -69,7 +69,7 @@ const NoteDetailModal = ({
         <View className="bg-white rounded-t-3xl p-6 h-3/4">
           <View className="flex-row justify-between items-center mb-4">
             <Text className="text-2xl font-semibold">Note Details</Text>
-            <TouchableOpacity onPress={onClose} className="p-2">
+            <TouchableOpacity onPress={onClose} className="p-3">
               <X size={24} color="black" />
             </TouchableOpacity>
           </View>

@@ -13,7 +13,7 @@ interface Props {
 const Header = ({ currentUser }: Props) => {
   return (
     <SafeAreaView>
-      <View className=" flex-row items-center justify-end gap-2 px-9 mt-6 ">
+      <View className=" flex-row items-center justify-end gap-2 px-9 mt-5 ">
         <View className="w-12 h-12 rounded-full bg-[#0454F0] items-center p-4 justify-center">
           <UsersRound color="#fff" />
         </View>
